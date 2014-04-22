@@ -1,9 +1,12 @@
+# -*-coding:Latin-1 -*
+
+import os
 import socket
 import select
 
-HOST = ''
+HOST = "localhost"
 PORT = 12800
-END_SIGNAL = 'boooya'
+END_SIGNAL = "boooya"
 
 main_connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 main_connection.bind((HOST, PORT))
@@ -25,10 +28,14 @@ while server_running:
 	else:
 		for client in clients_waiting:
 			data = client.recv(1024)
-			if data = END_SIGNAL:
+			print(data.decode())
+			client.send(b"OK")
+			if data == END_SIGNAL:
 				server_running = False
 
 for client in connected_clients:
 	client.close()
 
 main_connection.close()
+
+os.system("pause")
